@@ -1,0 +1,19 @@
+#!/bin/bash
+
+TIMESTAMP=`date "+%Y-%m-%d"`
+BACKUP_LIFETIME_DAYS={{ mongodb_backup_lifetime_days }}
+
+# Run database backup
+docker start mongodb_backup
+sleep 1m
+cd {{ mongodb_backup_dir }}/
+
+# Compress to timestamped tarball
+tar -cvzf {{ mongodb_backup_file_prefix }}_$TIMESTAMP.tar.gz dump
+
+# Remove dump directory
+rm -rf dump
+
+# Remove old backups
+find {{ mongodb_backup_dir }} -maxdepth 1 -mtime +$BACKUP_LIFETIME_DAYS -type f -exec rm {} \;
+

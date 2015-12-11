@@ -1,0 +1,19 @@
+---
+
+# MongoDB Backup Playbook 
+#
+# @author Vitaly Kovalyshyn, 2015
+
+- hosts: mongodb
+  name: "Setup MongoDB backup scripts"
+  gather_facts: no
+  tags: ['setup']
+  roles:
+    - { role: 'setup' }
+
+- hosts: mongodb
+  name: "Backup MongoDB"
+  gather_facts: no
+  tags: ['backup']
+  tasks:
+    - shell: '{{ mongodb_backup_script_dir }}/{{ mongodb_backup_script_filename }}'

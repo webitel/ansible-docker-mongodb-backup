@@ -1,0 +1,41 @@
+---
+- name: 'Ensure backup directory exists'
+  file: 
+    path: '{{ mongodb_backup_dir }}'
+    state: directory
+    owner: root
+    group: backup
+
+- name: 'Ensure backup script directory exists'
+  file: 
+    path: '{{ mongodb_backup_script_dir }}'
+    state: directory
+    owner: root
+    group: backup
+
+- name: 'Install backup script'
+  template: 
+    src: mongo_dump.sh.j2
+    dest: '{{ mongodb_backup_script_dir }}/{{ mongodb_backup_script_filename }}'
+    owner: root
+    group: backup
+    mode: "u=rwx,g=rx,o=r"
+
+- name: 'Set up cron job for automated backups'
+  cron: 
+    name: '{{ mongodb_backup_cron_name }}'
+    special_time: '{{ mongodb_backup_frequency }}'
+    job: "sh {{ mongodb_backup_script_dir }}/{{ mongodb_backup_script_filename }}"
+  when:
+    - mongodb_backup_frequency != 'never'
+
+- name: "Create MongoDB Backup container"
+  docker:
+    name: mongodb_backup
+    image: mongo:3 
+    state: present
+    volumes:
+      - "{{ mongodb_backup_dir }}:/backup"
+    links:
+      - "{{ mongodb_docker_container_name }}:mongodb"
+    command: "mongodump -h mongodb -o /backup/dump" 

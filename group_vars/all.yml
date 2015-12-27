@@ -1,5 +1,5 @@
 ---
-mongodb_docker_container_name:  'mongodb'
+mongodb_docker_container_name:  'mongo'
 mongodb_backup_cron_name:       'Backup MongoDB databases'
 mongodb_backup_frequency:       'daily'
 mongodb_backup_lifetime_days:   14

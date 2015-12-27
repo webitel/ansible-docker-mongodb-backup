@@ -29,6 +29,12 @@
   when:
     - mongodb_backup_frequency != 'never'
 
+- name: "Get easy_install with APT"
+  apt: name=python-setuptools state=latest
+
+- name: "Install docker-compose"
+  easy_install: name=docker-compose
+
 - name: "Create MongoDB Backup container"
   docker:
     name: mongodb_backup

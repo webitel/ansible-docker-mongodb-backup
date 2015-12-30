@@ -6,7 +6,6 @@
 
 - hosts: mongodb
   name: "Setup MongoDB backup scripts"
-  gather_facts: no
   tags: ['setup']
   roles:
     - { role: 'setup' }

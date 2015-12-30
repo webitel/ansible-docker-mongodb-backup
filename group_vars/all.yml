@@ -1,8 +1,9 @@
 ---
 mongodb_docker_container_name:  'mongo'
-mongodb_backup_cron_name:       'Backup MongoDB databases'
+# 'never' - disable cron task
 mongodb_backup_frequency:       'daily'
-mongodb_backup_lifetime_days:   14
+mongodb_backup_cron_name:       'Backup MongoDB databases'
+mongodb_backup_lifetime_days:   7
 mongodb_backup_file_prefix:     'mongodb_backup'
 mongodb_backup_dir:             '/opt/webitel/mongodb_backup'
 mongodb_backup_script_dir:      '/opt/webitel'

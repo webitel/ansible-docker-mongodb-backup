@@ -37,7 +37,7 @@
   yum: name=python-setuptools state=latest
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: "Install docker-compose"
+- name: "Install s3cmd and docker-compose"
   easy_install: name={{ item }}
   with_items:
     - s3cmd
